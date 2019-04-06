@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/Khendle/test_repo.svg?branch=master)](https://travis-ci.com/Khendle/test_repo)
+
 University of the Witwatersrand
 School of Computer Science
 Software Design 
