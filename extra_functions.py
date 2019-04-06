@@ -3,13 +3,10 @@ import json
 import hashlib
 import os
 import re
-#import Database as database
-
 
 #print( "valid_login =", database.valid_login( username="reuben", password="matlala" ))
 #database.create_user(username="reuben", password="matlala", email="reuben.mahloele@gmail.com", phone="1234567890")
-data={}
-data['people']=[]
+
 def print_signUp_details( username, email, phone, pass1,pass2 ):
 	print("usename =", username)
 	print("email =", email)
@@ -34,18 +31,7 @@ def details_check(username, email, phone, pass1,pass2):
 	elif pass1 != pass2:
 		return "Password mismatch!"
 	else:
-		#Push the information to a database
-		#for now will be using a json file to store the data
-		data['people'].append({
-			'username': username,
-			'email': email,
-			'phone': phone,
-			'pass': pass2
-		})
-		with open('data.txt','w') as outfile:
-			json.dump(data,outfile)
-		return_message ="Account created!"
-	return return_message
+		return return_message
 
 def login_check(username,password):
 	return_message =''
@@ -55,15 +41,5 @@ def login_check(username,password):
 		return return_message
 
 	else:
-		with open('data.txt') as json_file:
-			data_read = json.load(json_file)
-			for p in data['people']:
-				if p['username']==username and p['pass']== password:
-					a=True
-
-		if a:
-			return_message = " You have successfully logged in"
-			return return_message
-		else:
-			return_message  = "Invalid username or password"
-			return return_message
+		return_message = "You have successfully logged in."
+		return return_message
