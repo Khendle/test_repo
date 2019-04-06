@@ -1,13 +1,15 @@
 from tkinter import *
+import json
 import hashlib
 import os
 import re
-import Database as database
+#import Database as database
 
 
 #print( "valid_login =", database.valid_login( username="reuben", password="matlala" ))
 #database.create_user(username="reuben", password="matlala", email="reuben.mahloele@gmail.com", phone="1234567890")
-
+data={}
+data['people']=[]
 def print_signUp_details( username, email, phone, pass1,pass2 ):
 	print("usename =", username)
 	print("email =", email)
@@ -19,9 +21,8 @@ def details_check(username, email, phone, pass1,pass2):
 
 	return_message = ''
 	if username == "":
-		return "Name Field is required!"
-	elif database.username_exist( username ):
-		return "Username already exist"
+		# Don't forget to check if a username exists or not
+		return "Username Field is required!"
 	elif email == "":
 		return "Email Filed is required!"
 	elif phone == "":
@@ -33,23 +34,36 @@ def details_check(username, email, phone, pass1,pass2):
 	elif pass1 != pass2:
 		return "Password mismatch!"
 	else:
-		database.create_user(username, email, phone, pass1)
+		#Push the information to a database
+		#for now will be using a json file to store the data
+		data['people'].append({
+			'username': username,
+			'email': email,
+			'phone': phone,
+			'pass': pass2
+		})
+		with open('data.txt','w') as outfile:
+			json.dump(data,outfile)
 		return_message ="Account created!"
 	return return_message
 
 def login_check(username,password):
-	return_messgae=''
+	return_message =''
+	a = False
 	if username=="" or password=="":
 		return_message="Please fill in your details."
 		return return_message
 
-	elif username!="" and password!="":
-		if database.valid_login( username, password ):
-			return True
-		else:
-			return "Invalid username or password"
-
 	else:
-		return_message='You have succefully logged in.'
-		return return_message
+		with open('data.txt') as json_file:
+			data_read = json.load(json_file)
+			for p in data['people']:
+				if p['username']==username and p['pass']== password:
+					a=True
 
+		if a:
+			return_message = " You have successfully logged in"
+			return return_message
+		else:
+			return_message  = "Invalid username or password"
+			return return_message
