@@ -5,6 +5,7 @@ cache: pip
 services:
   - mysql
 install:
+  - pip install https://cdn.mysql.com/Downloads/Connector-Python/mysql-connector-python-2.1.2.tar.gz
   - pip install -r requirements.txt
 script:
   - python3 test_script.py
